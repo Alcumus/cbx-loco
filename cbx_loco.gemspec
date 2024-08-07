@@ -31,7 +31,7 @@ TEXT
   # Allow colors in console outputs
   s.add_dependency "colorize", "~> 0.8.1"
 
-  s.add_dependency "rails", ">= 4.1", "< 6.1"
+  s.add_dependency "rails", ">= 4.1"
   s.add_dependency "rake", ">= 11.0"
   s.add_dependency "rubyzip", "~> 1.1"
 
