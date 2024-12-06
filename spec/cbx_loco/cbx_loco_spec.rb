@@ -28,7 +28,7 @@ describe CbxLoco do
         allow(CbxLoco::Importer).to receive(:new) { importer }
         allow(importer).to receive(:run)
 
-        CbxLoco.run params
+        CbxLoco.run **params
 
         expect(CbxLoco::Importer).to have_received(:new)
         expect(importer).to have_received(:run)
@@ -43,7 +43,7 @@ describe CbxLoco do
         allow(CbxLoco::Extractor).to receive(:new) { extractor }
         allow(extractor).to receive(:run)
 
-        CbxLoco.run params
+        CbxLoco.run **params
 
         expect(CbxLoco::Extractor).to have_received(:new)
         expect(extractor).to have_received(:run)
