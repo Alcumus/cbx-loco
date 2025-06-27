@@ -65,7 +65,7 @@ class CbxLoco::Extension
     puts "path: #{file_path}" if ENV["verbose"]
     print "Exporting#{locale_display} #{tag} assets... "
     export file_path: file_path, translations: translations
-    puts "Done!".colorize(:green)
+    puts Rainbow("Done!").green
   end
 
   def save_translations(fmt:, i18n_file:, tag:)

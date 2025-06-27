@@ -41,7 +41,7 @@ module CbxLoco
   def self.valid_api_key?
     valid = CbxLoco.configuration.api_key.present?
     unless valid
-      puts "MISSING I18N API KEY. ABORTING.".colorize(:red).bold
+      puts Rainbow("MISSING I18N API KEY. ABORTING.").red.underline.bright
       exit(1)
     end
 

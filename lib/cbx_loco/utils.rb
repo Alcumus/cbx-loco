@@ -1,4 +1,4 @@
-require 'colorize'
+require 'rainbow'
 require 'fileutils'
 
 class CbxLoco::Utils
@@ -6,20 +6,20 @@ class CbxLoco::Utils
     print "Creating \"#{path}\" folder... "
 
     FileUtils.mkdir_p(path)
-    puts "Done!".colorize(:green)
+    puts Rainbow("Done!").green
 
     print "Creating \".keep\" file... "
     file_path = File.join path, ".keep"
     FileUtils.touch(file_path)
 
-    puts "Done!".colorize(:green)
+    puts Rainbow("Done!").green
   end
 
   def self.print_error(message)
-    puts "\n\n" + message.colorize(:red).bold
+    puts "\n\n" + Rainbow(message).red.underline.bright
   end
 
   def self.print_success(message)
-    puts "\n\n" + message.colorize(:green).bold
+    puts "\n\n" + Rainbow(message).green.underline.bright
   end
 end
