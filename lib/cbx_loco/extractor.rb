@@ -1,14 +1,14 @@
 require 'time'
 require 'json'
 require 'yaml'
-require 'colorize'
+require 'rainbow'
 require 'get_pomo'
 require 'fileutils'
 require 'cbx_loco/utils'
 
 class CbxLoco::Extractor
   def run
-    puts "\n" + "Extract i18n assets".colorize(:green).bold
+    puts "\n" + Rainbow("Extract i18n assets").green.bright
 
     puts "Removing old files... "
     CbxLoco.configuration.i18n_files.each do |i18n_file|
@@ -30,7 +30,7 @@ class CbxLoco::Extractor
       puts "Removing old assets #{tag}"
       File.unlink i18n_file_path if File.file?(i18n_file_path)
     end
-    puts "Done!".colorize(:green).bold
+    puts Rainbow("Done!").green.bright
 
     CbxLoco.configuration.emit :before_extract
 
@@ -80,7 +80,7 @@ class CbxLoco::Extractor
       end
     end
 
-    puts "\n" + "Upload i18n assets to Loco".colorize(:green).bold
+    puts "\n" + Rainbow("Upload i18n assets to Loco").green.bright
     begin
       print "Grabbing the list of existing assets... "
       res = CbxLoco::Adapter.get "assets.json"
@@ -88,7 +88,7 @@ class CbxLoco::Extractor
       existing_assets = CbxLoco::ExtractAdapter.new(res).grab_existing_assets
       res = nil
 
-      puts "Done!".colorize(:green)
+      puts Rainbow("Done!").green
 
       @assets.each do |asset_name, asset|
         trimmed_asset_name = asset_name.length > 100 ? asset_name[0..96] + "..." : asset_name
@@ -110,7 +110,7 @@ class CbxLoco::Extractor
 
           existing_asset = { id: res["id"], tags: res["tags"] }
           existing_assets[trimmed_asset_name] = existing_asset
-          puts "Done!".colorize(:green)
+          puts Rainbow("Done!").green
         end
 
         new_tags = asset[:tags] - existing_asset[:tags]
@@ -118,11 +118,11 @@ class CbxLoco::Extractor
           print_asset_id = existing_asset[:id].length > 30 ? existing_asset[:id][0..26] + "[...]" : existing_asset[:id]
           print "Uploading tag \"#{tag}\" for asset: \"#{print_asset_id}\"... "
           CbxLoco::Adapter.post "assets/#{CGI.escape(existing_asset[:id])}/tags.json", name: tag
-          puts "Done!".colorize(:green)
+          puts Rainbow("Done!").green
         end
       end
 
-      puts "\n" + "All done!".colorize(:green).bold
+      puts "\n" + Rainbow("All done!").green.bright
     rescue => e
       res = JSON.parse e.response
       CbxLoco::Utils.print_error "Upload to Loco failed: #{e.message}: #{res["error"]}"
