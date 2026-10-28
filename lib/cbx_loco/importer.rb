@@ -30,7 +30,7 @@ class CbxLoco::Importer
           api_params: api_params
         }
 
-        extension_instance.download(download_params)
+        extension_instance.download(**download_params)
       end
 
       CbxLoco.configuration.emit :after_import
