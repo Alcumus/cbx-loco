@@ -40,7 +40,7 @@ describe CbxLoco::Extension do
 
       context "when file format does not allow to be bundled" do
         it "should raise a NotBundleable" do
-          expect { TestNotBundleableExtension.new.download(options) }.to raise_error(Exceptions::NotBundleable)
+          expect { TestNotBundleableExtension.new.download(**options) }.to raise_error(Exceptions::NotBundleable)
         end
       end
 
@@ -53,7 +53,7 @@ describe CbxLoco::Extension do
         end
 
         it "should download from zip" do
-          instance.download(options)
+          instance.download(**options)
           expect(instance).to have_received(:download_from_zip)
         end
 
@@ -62,13 +62,13 @@ describe CbxLoco::Extension do
             dir = File.dirname(file_name)
             allow(File).to receive(:directory?).with(dir).and_return(false)
 
-            instance.download(options)
+            instance.download(**options)
             expect(CbxLoco::Utils).to have_received(:create_directory).with(dir)
           end
         end
 
         it "should format the filename with nil locale" do
-          instance.download(options)
+          instance.download(**options)
           expect(file_name_proc).to have_received(:call).with(locale: nil, fmt: options[:fmt], i18n_file: options[:i18n_file])
         end
 
@@ -77,14 +77,14 @@ describe CbxLoco::Extension do
             dir = File.dirname(file_name)
             allow(File).to receive(:directory?).with(dir).and_return(true)
 
-            instance.download(options)
+            instance.download(**options)
             expect(CbxLoco::Utils).to_not have_received(:create_directory).with(dir)
           end
         end
 
         it "should save translations" do
           allow(zip_result).to receive(:force_encoding) { zip_result }
-          instance.download(options)
+          instance.download(**options)
           expect(File).to have_received(:new).with(file_name, "w:UTF-8")
           expect(mocked_file).to have_received(:write).with(zip_result)
           expect(zip_result).to have_received(:force_encoding).with("UTF-8")
@@ -108,12 +108,12 @@ describe CbxLoco::Extension do
       end
 
       it "should download from zip" do
-        instance.download(options)
+        instance.download(**options)
         expect(instance).to have_received(:download_from_zip)
       end
 
       it "should format the filename by locale" do
-        instance.download(options)
+        instance.download(**options)
         zip_result.each do |key, value|
           expect(file_name_proc).to have_received(:call).with(locale: key, fmt: options[:fmt], i18n_file: options[:i18n_file])
         end
@@ -122,7 +122,7 @@ describe CbxLoco::Extension do
       context "when folder does not exist" do
         it "should create it" do
           allow(File).to receive(:directory?).and_return(false)
-          instance.download(options)
+          instance.download(**options)
 
           file_names.each do |key, value|
             dir = File.dirname(value)
@@ -136,7 +136,7 @@ describe CbxLoco::Extension do
           dir = File.dirname(file_name)
           allow(File).to receive(:directory?).with(dir).and_return(true)
 
-          instance.download(options)
+          instance.download(**options)
           expect(CbxLoco::Utils).to_not have_received(:create_directory).with(dir)
         end
       end
@@ -146,7 +146,7 @@ describe CbxLoco::Extension do
           allow(value).to receive(:force_encoding) { value }
         end
 
-        instance.download(options)
+        instance.download(**options)
 
         file_names.each do |key, value|
           expect(File).to have_received(:new).with(value, "w:UTF-8")
@@ -157,7 +157,7 @@ describe CbxLoco::Extension do
 
       it "should validate the created file" do
         allow(instance).to receive(:validate)
-        instance.download(options)
+        instance.download(**options)
 
         file_names.each do |key, value|
           expect(instance).to have_received(:validate).with(value)
