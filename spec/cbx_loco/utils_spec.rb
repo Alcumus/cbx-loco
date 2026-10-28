@@ -26,4 +26,24 @@ describe CbxLoco::Utils do
       delete_path(path)
     end
   end
+
+  describe "console messages" do
+    around do |example|
+      was_enabled = Rainbow.enabled
+      Rainbow.enabled = true
+      example.run
+    ensure
+      Rainbow.enabled = was_enabled
+    end
+
+    it "prints errors in bold red" do
+      expect { CbxLoco::Utils.print_error("error") }.
+        to output("\n\n#{Rainbow('error').red.bold}\n").to_stdout
+    end
+
+    it "prints success in bold green" do
+      expect { CbxLoco::Utils.print_success("success") }.
+        to output("\n\n#{Rainbow('success').green.bold}\n").to_stdout
+    end
+  end
 end

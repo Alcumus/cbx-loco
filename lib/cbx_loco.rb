@@ -1,5 +1,6 @@
 require 'active_support'
 require 'active_support/core_ext'
+require 'rainbow'
 require "cbx_loco/version"
 require 'cbx_loco/configuration'
 require 'cbx_loco/extract_adapter'
@@ -41,7 +42,7 @@ module CbxLoco
   def self.valid_api_key?
     valid = CbxLoco.configuration.api_key.present?
     unless valid
-      puts "MISSING I18N API KEY. ABORTING.".colorize(:red).bold
+      puts Rainbow("MISSING I18N API KEY. ABORTING.").red.bold
       exit(1)
     end
 
